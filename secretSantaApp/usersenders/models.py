@@ -59,7 +59,7 @@ class UserSenderManager(BaseUserSenderManager):
         :param user: The user to get the
         :return: the receiver name
         """
-        if user.send_to == user.BLANK_SEND_TO:
+        if user.isEmpty_send_to():
             giftees = self.make_giftees(user.group)
             self.save_giftees(giftees)
             user.send_to = giftees[user].name
@@ -93,7 +93,12 @@ class UserSender(models.Model):
 
     GROUP_FIELD = 'group'
     NAME_FIELD = 'name'
-    BLANK_SEND_TO = b''
+
+    def isEmpty_send_to(self):
+        if self.send_to:
+            return False
+        else:
+            return True
 
     def __str__(self):
         return self.name + " - " + str(self.age)

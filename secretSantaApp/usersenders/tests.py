@@ -84,17 +84,17 @@ class UserSenderGetGiftess(APITestCase):
         UserSender.objects.save_giftees(giftees)
 
         for user in UserSender.objects.get_by_group("grupo1"):
-            self.assertNotEqual(user.BLANK_SEND_TO, user.send_to)
+            self.assertFalse(user.isEmpty_send_to())
 
     def test_get_giftees_uninitialized(self):
         """
         The function get_giftee(user) make the pairing, persist and update the user object
         """
         user = self.userSender
-        self.assertEqual(user.BLANK_SEND_TO, user.send_to)
+        self.assertTrue(user.isEmpty_send_to())
 
-        send_to = UserSender.objects.get_giftee(user)
-        self.assertNotEqual(user.BLANK_SEND_TO, send_to)
+        UserSender.objects.get_giftee(user)
+        self.assertFalse(user.isEmpty_send_to())
 
     def test_get_giftees_initialized(self):
         giftees = UserSender.objects.make_giftees("grupo1")
