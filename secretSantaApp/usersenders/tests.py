@@ -70,11 +70,12 @@ class UserSenderGetGiftess(APITestCase):
             B -> A
         """
         mixed = UserSender.objects.make_giftees("grupo1")
-
         for key in mixed:
-            A = key.name
-            B = mixed[key].name
+            A = mixed[key]
+            B = mixed[A]
+            self.assertNotEqual(key, A)
             self.assertNotEqual(A, B)
+
 
     def test_save_giftees(self):
         """
